@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Server;
 using static OpenIddict.Server.OpenIddictServerEvents;
 
@@ -29,23 +27,6 @@ public static class OpenIddictServerBuilderExtensions
         foreach (var customFlow in customFlows)
         {
             builder.AllowCustomFlow(customFlow);
-        }
-        
-        return builder;
-    }
-
-    public static OpenIddictServerBuilder AddSigningDevelopmentCertificateOrSigningKey(
-        this OpenIddictServerBuilder builder, 
-        IHostEnvironment environment,
-        Func<SecurityKey> keyFactory)
-    {
-        if (environment.IsDevelopment())
-        {
-            builder.AddDevelopmentSigningCertificate();
-        }
-        else
-        {
-            builder.AddSigningKey(keyFactory());
         }
         
         return builder;

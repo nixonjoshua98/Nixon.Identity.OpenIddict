@@ -4,7 +4,7 @@ namespace Nixon.Identity.OpenIddict.Extensions;
 
 public static class OpenIddictValidationExtensions
 {
-    public static OpenIddictValidationBuilder SetClient(OpenIddictValidationBuilder builder, string clientId, string clientSecret)
+    public static OpenIddictValidationBuilder SetClient(this OpenIddictValidationBuilder builder, string clientId, string clientSecret)
     {
         return builder
             .SetClientId(clientId)
