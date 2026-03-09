@@ -1,4 +1,4 @@
-﻿# Nixon.Identity.OpenIddict.Extensions
+﻿# Nixon.Identity.OpenIddict
 
 [![NuGet](https://img.shields.io/badge/NuGet-Nixon.Identity.OpenIddict.Extensions-blue)](https://www.nuget.org/)
 

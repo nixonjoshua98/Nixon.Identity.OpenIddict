@@ -2,7 +2,6 @@
     
     <ItemGroup>
         <PackageReference Include="OpenIddict.AspNetCore"  />
-        <PackageReference Include="OpenIddict.Client.WebIntegration" />
         <PackageReference Include="OpenIddict.EntityFrameworkCore" />
     </ItemGroup>
 
