@@ -14,13 +14,6 @@ public static class OpenIddictServerBuilderExtensions
             .AllowRefreshTokenFlow()
             .SetRefreshTokenLifetime(refreshTokenLifetime);
     }
-    
-    public static OpenIddictServerBuilder AddScopedTokenRequestHandler<THandler>(this OpenIddictServerBuilder builder)
-        where THandler : class, IOpenIddictServerHandler<HandleTokenRequestContext>
-    {
-        return builder
-            .AddEventHandler<HandleTokenRequestContext>(x => x .UseScopedHandler<THandler>());
-    }
 
     public static OpenIddictServerBuilder AllowCustomFlows(this OpenIddictServerBuilder builder, IEnumerable<string> customFlows)
     {

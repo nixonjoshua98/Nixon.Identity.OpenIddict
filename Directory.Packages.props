@@ -1,7 +1,6 @@
 <Project>
     <ItemGroup>
         <PackageVersion Include="OpenIddict.AspNetCore" Version="7.3.0" />
-        <PackageVersion Include="OpenIddict.Client.WebIntegration" Version="7.3.0" />
         <PackageVersion Include="OpenIddict.EntityFrameworkCore" Version="7.3.0" />
     </ItemGroup>
 </Project>

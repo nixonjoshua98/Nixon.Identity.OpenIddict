@@ -6,15 +6,18 @@ using Microsoft.IdentityModel.Tokens;
 namespace Nixon.Identity.OpenIddict.Template.Configuration;
 
 [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
-internal sealed class OpenIddictIdentityServerConfiguration
+public sealed class OpenIddictIdentityServerConfiguration
 {
     public string Issuer { get; init; } = null!;
     public string EncryptionKey { get; init; } = null!;
     
     public string ClientId { get; init; } = null!;
     public string ClientSecret { get; init; } = null!;
-    
-    public string[] AllowedCustomGrantTypes { get; init; } = [];
+
+    internal IEnumerable<string> AllAllowedGrantTypes
+        => Applications.SelectMany(x => x.AllowedGrantTypes).Distinct();
+
+    public OpenIddictIdentityServerApplicationConfiguration[] Applications { get; init; } = [];
 
     public SecurityKey EncryptionSecurityKey => 
         field ??= new SymmetricSecurityKey(Encoding.UTF8.GetBytes(EncryptionKey));
@@ -29,4 +32,12 @@ internal sealed class OpenIddictIdentityServerConfiguration
         
         return loaded;
     }
+}
+
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
+public sealed class OpenIddictIdentityServerApplicationConfiguration
+{
+    public string ClientId { get; init; } = null!;
+    
+    public string[] AllowedGrantTypes { get; init; } = [];
 }

@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Nixon.Identity.OpenIddict.Extensions;
+using Nixon.Identity.OpenIddict.Template.BackgroundService;
 using Nixon.Identity.OpenIddict.Template.Builders;
 using Nixon.Identity.OpenIddict.Template.Configuration;
 
@@ -11,6 +12,13 @@ namespace Nixon.Identity.OpenIddict.Template.Extensions;
 
 public static class ServiceCollectionExtensions
 {
+    private static void AddCoreServices(IServiceCollection services, OpenIddictIdentityServerConfiguration configuration)
+    {
+        services.AddHostedService<ApplicationRegistrationBackgroundService>();
+        
+        services.TryAddSingleton(configuration);
+    }
+    
     public static IServiceCollection AddOpenIddictIdentityServer<TContext>(
         this IServiceCollection services,
         IConfiguration configuration,
@@ -20,11 +28,11 @@ public static class ServiceCollectionExtensions
     {
         var loadedConfiguration = OpenIddictIdentityServerConfiguration.ReadFrom(configuration);
         
-        services.TryAddSingleton(loadedConfiguration);
-        
         var templateBuilder = new OpenIdDictIdentityServerBuilder();
         
         configure?.Invoke(templateBuilder);
+        
+        AddCoreServices(services, loadedConfiguration);
         
         services.AddOpenIddict()
             .AddCore(core =>
@@ -36,8 +44,6 @@ public static class ServiceCollectionExtensions
                 server.AddDevelopmentSigningCertificate();
                 server.AddEncryptionKey(loadedConfiguration.EncryptionSecurityKey);
 
-                server.UseReferenceAccessTokens();
-                server.UseReferenceRefreshTokens();
                 server.UseDataProtection();
 
                 server.SetIssuer(loadedConfiguration.Issuer);
@@ -45,7 +51,7 @@ public static class ServiceCollectionExtensions
 
                 server.AllowRefreshTokenFlow(TimeSpan.FromDays(30));
                 server.AllowAuthorizationCodeFlow();
-                server.AllowCustomFlows(loadedConfiguration.AllowedCustomGrantTypes);
+                server.AllowCustomFlows(loadedConfiguration.AllAllowedGrantTypes);
                 
                 server.SetTokenEndpointUris("connect/token");
                 server.SetAuthorizationEndpointUris("connect/authorize");
@@ -77,7 +83,6 @@ public static class ServiceCollectionExtensions
             .AddValidation(validation =>
             {
                 validation.SetIssuer(loadedConfiguration.Issuer);
-                validation.SetClient(loadedConfiguration.ClientId, loadedConfiguration.ClientSecret);
 
                 validation.UseAspNetCore();
                 validation.UseLocalServer();

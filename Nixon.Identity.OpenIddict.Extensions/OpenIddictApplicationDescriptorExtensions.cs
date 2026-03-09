@@ -8,27 +8,27 @@ namespace Nixon.Identity.OpenIddict.Extensions;
 public static class OpenIddictApplicationDescriptorExtensions
 {
     public static OpenIddictApplicationDescriptor AddRedirectUris(
-        this OpenIddictApplicationDescriptor descriptopr,
+        this OpenIddictApplicationDescriptor descriptor,
         IEnumerable<Uri> redirectUris)
     {
         foreach (var uri in redirectUris)
         {
-            descriptopr.RedirectUris.Add(uri);
+            descriptor.RedirectUris.Add(uri);
         }
         
-        return descriptopr;
+        return descriptor;
     }
     
     public static OpenIddictApplicationDescriptor AddRedirectUris(
-        this OpenIddictApplicationDescriptor descriptopr,
+        this OpenIddictApplicationDescriptor descriptor,
         IEnumerable<string> redirectUris)
     {
         foreach (var uri in redirectUris)
         {
-            descriptopr.RedirectUris.Add( new Uri(uri) );
+            descriptor.RedirectUris.Add( new Uri(uri) );
         }
         
-        return descriptopr;
+        return descriptor;
     }
     
 }
