@@ -7,4 +7,5 @@
     <File Path=".github/workflows/PublishNuget.yaml" />
   </Folder>
   <Project Path="Nixon.Identity.OpenIddict.Extensions/Nixon.Identity.OpenIddict.Extensions.csproj" />
+  <Project Path="Nixon.Identity.OpenIddict.Template/Nixon.Identity.OpenIddict.Template.csproj" />
 </Solution>
