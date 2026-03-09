@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Props/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/Workflows/">
+    <File Path=".github/workflows/PublishNuget.yaml" />
+  </Folder>
+  <Project Path="Nixon.Identity.OpenIddict.Extensions/Nixon.Identity.OpenIddict.Extensions.csproj" />
+</Solution>

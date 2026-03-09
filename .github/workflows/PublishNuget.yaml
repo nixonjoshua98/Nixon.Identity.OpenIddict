@@ -1,0 +1,42 @@
+name: PublishNuget
+
+on:
+  workflow_dispatch:
+    
+  release:
+    types:
+      - published
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x.x'
+
+      - name: Restore dependencies
+        run: |
+          dotnet restore Nixon.Identity.OpenIddict.slnx
+
+      - name: Build solution
+        run: |
+          dotnet build Nixon.Identity.OpenIddict.slnx --configuration Release --no-restore
+
+      - name: Run tests
+        run: |
+          dotnet test Nixon.Identity.OpenIddict.slnx --configuration Release --no-build
+
+      - name: Pack NuGet packages
+        run: |
+          dotnet pack Nixon.Identity.OpenIddict.Extensions/Nixon.Identity.OpenIddict.Extensions.csproj --configuration Release --no-build -o ./dist
+
+      - name: Push to NuGet.org
+        run: |
+          dotnet nuget push "./dist/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
