@@ -19,10 +19,10 @@ public static class OpenIddictRequestExtensions
     {
         value = default;
 
-        return TryGetParameter(request, name, out var str) && T.TryParse(str, provider, out value);
+        return TryGetParameterAsString(request, name, out var str) && T.TryParse(str, provider, out value);
     }
 
-    public static bool TryGetParameter(this OpenIddictRequest request, string name, [NotNullWhen(true)] out string? value)
+    public static bool TryGetParameterAsString(this OpenIddictRequest request, string name, [NotNullWhen(true)] out string? value)
     {
         value = null;
 
