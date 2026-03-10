@@ -27,11 +27,11 @@ jobs:
 
       - name: Build solution
         run: |
-          dotnet build Nixon.slnx --configuration Release --no-restore
+          dotnet build Nixon.Net.slnx --configuration Release --no-restore
 
       - name: Run tests
         run: |
-          dotnet test Nixon.slnx --configuration Release --no-build
+          dotnet test Nixon.Net.slnx --configuration Release --no-build
 
       - name: Pack NuGet packages
         run: |
