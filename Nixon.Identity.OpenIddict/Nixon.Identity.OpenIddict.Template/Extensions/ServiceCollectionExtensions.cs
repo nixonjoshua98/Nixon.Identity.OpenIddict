@@ -25,10 +25,10 @@ public static class ServiceCollectionExtensions
         services.TryAddSingleton(configuration);
     }
 
-    private static T LoadConfiguration<T>(IConfiguration configuration)
+    private static T LoadConfiguration<T>(IConfiguration configuration, string sectionName)
         where T : IOpenIddictFrameworkConfiguration, new()
     {
-        var section = configuration.GetRequiredSection("OpenIddictIdentityServer");
+        var section = configuration.GetRequiredSection(sectionName);
 
         var loaded = new T();
         
@@ -57,7 +57,25 @@ public static class ServiceCollectionExtensions
         where TContext : DbContext
         where TConfiguration : class, IOpenIddictFrameworkConfiguration, new()
     {
-        var loadedConfiguration = LoadConfiguration<TConfiguration>(configuration);
+        return AddOpenIddictIdentityServer<TContext, TConfiguration>(
+            services, 
+            configuration, 
+            environment, 
+            "OpenIddict", 
+            configure
+        );
+    }
+
+    public static IServiceCollection AddOpenIddictIdentityServer<TContext, TConfiguration>(
+        this IServiceCollection services,
+        IConfiguration configuration,
+        IHostEnvironment environment,
+        string sectionName,
+        Action<OpenIddictFrameworkBuilder<TConfiguration>>? configure = null)
+        where TContext : DbContext
+        where TConfiguration : class, IOpenIddictFrameworkConfiguration, new()
+    {
+        var loadedConfiguration = LoadConfiguration<TConfiguration>(configuration, sectionName);
         
         var identityServerBuilder = new OpenIddictFrameworkBuilder<TConfiguration>(loadedConfiguration, environment);
         
