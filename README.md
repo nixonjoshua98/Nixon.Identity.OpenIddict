@@ -1,19 +1,13 @@
-﻿# Nixon.Identity.OpenIddict
+﻿# The 'Nixon' Repository
 
-[![NuGet](https://img.shields.io/badge/NuGet-Nixon.Identity.OpenIddict.Extensions-blue)](https://www.nuget.org/)
-[![NuGet](https://img.shields.io/badge/NuGet-Nixon.Identity.OpenIddict.Template-blue)](https://www.nuget.org/)
-
-A set of packages extending the fantastic OpenIddict framework
+A set of packages containing frequently reused copy-pasted code
 
 ---
 
-## 🚀 Getting Started
+## 📦 Packages
 
-### 1. Installation
-
-Install any package via the NuGet CLI:
-
-```bash
-dotnet add package Nixon.Identity.OpenIddict.Extensions
-dotnet add package Nixon.Identity.OpenIddict.Template
-```
+| Package                                                                                            | Version                                                                                                                                                  |
+|:---------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Nixon.Identity.OpenIddict.Template](https://www.nuget.org/packages/Nixon.OpenIddict.Template)     | [![NuGet](https://img.shields.io/nuget/v/Nixon.Identity.OpenIddict.Template.svg)](https://www.nuget.org/packages/Nixon.Identity.OpenIddict.Template)     |
+| [Nixon.Identity.OpenIddict.Extensions](https://www.nuget.org/packages/Nixon.OpenIddict.Extensions) | [![NuGet](https://img.shields.io/nuget/v/Nixon.Identity.OpenIddict.Extensions.svg)](https://www.nuget.org/packages/Nixon.Identity.OpenIddict.Extensions) |
+| [Nixon.Extensions.Configuration](https://www.nuget.org/packages/Nixon.Extensions.Configuration)    | [![NuGet](https://img.shields.io/nuget/v/Nixon.Extensions.Configuration.svg)](https://www.nuget.org/packages/Nixon.Extensions.Configuration)             |

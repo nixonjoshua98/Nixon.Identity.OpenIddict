@@ -23,20 +23,24 @@ jobs:
 
       - name: Restore dependencies
         run: |
-          dotnet restore Nixon.Identity.OpenIddict.slnx
+          dotnet restore Nixon.slnx
 
       - name: Build solution
         run: |
-          dotnet build Nixon.Identity.OpenIddict.slnx --configuration Release --no-restore
+          dotnet build Nixon.slnx --configuration Release --no-restore
 
       - name: Run tests
         run: |
-          dotnet test Nixon.Identity.OpenIddict.slnx --configuration Release --no-build
+          dotnet test Nixon.slnx --configuration Release --no-build
 
       - name: Pack NuGet packages
         run: |
-          dotnet pack Nixon.Identity.OpenIddict.Extensions/Nixon.Identity.OpenIddict.Extensions.csproj --configuration Release --no-build -o ./dist
-          dotnet pack Nixon.Identity.OpenIddict.Template/Nixon.Identity.OpenIddict.Template.csproj --configuration Release --no-build -o ./dist
+          // Nixon.OpenIddict
+          dotnet pack Nixon.OpenIddict/Nixon.Identity.OpenIddict.Extensions/Nixon.Identity.OpenIddict.Extensions.csproj --configuration Release --no-build -o ./dist
+          dotnet pack Nixon.OpenIddict/Nixon.Identity.OpenIddict.Template/Nixon.Identity.OpenIddict.Template.csproj --configuration Release --no-build -o ./dist
+          
+          // Nixon.Extensions
+          dotnet pack Nixon.Extensions/Nixon.Extensions.Configuration/Nixon.Extensions.Configuration.csproj --configuration Release --no-build -o ./dist
 
       - name: Push to NuGet.org
         run: |

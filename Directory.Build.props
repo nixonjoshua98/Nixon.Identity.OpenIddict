@@ -17,19 +17,19 @@
 	<PropertyGroup>
 		<Title>$(PackageId)</Title>
 		<Authors>Joshua Nixon</Authors>
-		<PackageProjectUrl>https://github.com/nixonjoshua98/Nixon.Identity.OpenIddict</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/nixonjoshua98/Nixon.Identity.OpenIddict</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/nixonjoshua98/Nixon</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/nixonjoshua98/Nixon</RepositoryUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-		<Version>0.4.1</Version>
+		<Version>0.4.2</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="..\LICENSE.txt">
+		<None Include="..\..\LICENSE.txt">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
-		<None Include="..\README.md">
+		<None Include="..\..\README.md">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
