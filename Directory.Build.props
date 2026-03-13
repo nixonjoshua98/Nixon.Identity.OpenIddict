@@ -21,7 +21,7 @@
 		<RepositoryUrl>https://github.com/nixonjoshua98/Nixon.Net</RepositoryUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-		<Version>0.5.3</Version>
+		<Version>0.5.4</Version>
 	</PropertyGroup>
 
 	<ItemGroup>

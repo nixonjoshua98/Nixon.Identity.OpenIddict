@@ -15,6 +15,72 @@ namespace Nixon.Identity.OpenIddict.Template.Extensions;
 [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
 public static class ServiceCollectionExtensions
 {
+    extension(IServiceCollection services)
+    {
+        public IServiceCollection AddOpenIddictFramework<TContext>(IConfiguration configuration,
+            IHostEnvironment environment,
+            Action<OpenIddictFrameworkBuilder<OpenIddictFrameworkConfiguration>>? configure = null)
+            where TContext : DbContext
+        {
+            return AddOpenIddictFramework<TContext, OpenIddictFrameworkConfiguration>(
+                services, 
+                configuration, 
+                environment, 
+                configure
+            );
+        }
+
+        public IServiceCollection AddOpenIddictFramework<TContext, TConfiguration>(IConfiguration configuration,
+            IHostEnvironment environment,
+            Action<OpenIddictFrameworkBuilder<TConfiguration>>? configure = null)
+            where TContext : DbContext
+            where TConfiguration : class, IOpenIddictFrameworkConfiguration, new()
+        {
+            return AddOpenIddictFramework<TContext, TConfiguration>(
+                services, 
+                configuration, 
+                environment, 
+                "OpenIddict", 
+                configure
+            );
+        }
+
+        public IServiceCollection AddOpenIddictFramework<TContext, TConfiguration>(IConfiguration configuration,
+            IHostEnvironment environment,
+            string sectionName,
+            Action<OpenIddictFrameworkBuilder<TConfiguration>>? configure = null)
+            where TContext : DbContext
+            where TConfiguration : class, IOpenIddictFrameworkConfiguration, new()
+        {
+            var loadedConfiguration = LoadConfiguration<TConfiguration>(configuration, sectionName);
+        
+            var identityServerBuilder = new OpenIddictFrameworkBuilder<TConfiguration>(loadedConfiguration, environment);
+        
+            configure?.Invoke(identityServerBuilder);
+        
+            AddCoreServices(services, loadedConfiguration);
+        
+            services.AddOpenIddict()
+                .AddCore(core =>
+                {
+                    core.UseEntityFrameworkCore<TContext>();
+                })
+                .AddServer(identityServerBuilder.Server.Configure)
+                .AddClient(identityServerBuilder.Client.Configure)
+                .AddValidation(validation =>
+                {
+                    validation.SetIssuer(loadedConfiguration.Issuer);
+
+                    validation.UseAspNetCore();
+                    validation.UseLocalServer();
+                    validation.UseSystemNetHttp();
+                    validation.UseDataProtection();
+                });
+        
+            return services;
+        }
+    }
+    
     private static void AddCoreServices<TConfiguration>(IServiceCollection services, TConfiguration configuration)
         where TConfiguration : class, IOpenIddictFrameworkConfiguration
     {
@@ -35,71 +101,5 @@ public static class ServiceCollectionExtensions
         section.Bind(loaded);
         
         return loaded;
-    }
-    
-    public static IServiceCollection AddOpenIddictIdentityServer<TContext>(
-        this IServiceCollection services,
-        IConfiguration configuration,
-        IHostEnvironment environment,
-        Action<OpenIddictFrameworkBuilder<OpenIddictFrameworkConfiguration>>? configure = null)
-        where TContext : DbContext
-    {
-        return AddOpenIddictIdentityServer<TContext, OpenIddictFrameworkConfiguration>(
-            services, configuration, environment, configure
-        );
-    }
-
-    public static IServiceCollection AddOpenIddictIdentityServer<TContext, TConfiguration>(
-        this IServiceCollection services,
-        IConfiguration configuration,
-        IHostEnvironment environment,
-        Action<OpenIddictFrameworkBuilder<TConfiguration>>? configure = null)
-        where TContext : DbContext
-        where TConfiguration : class, IOpenIddictFrameworkConfiguration, new()
-    {
-        return AddOpenIddictIdentityServer<TContext, TConfiguration>(
-            services, 
-            configuration, 
-            environment, 
-            "OpenIddict", 
-            configure
-        );
-    }
-
-    public static IServiceCollection AddOpenIddictIdentityServer<TContext, TConfiguration>(
-        this IServiceCollection services,
-        IConfiguration configuration,
-        IHostEnvironment environment,
-        string sectionName,
-        Action<OpenIddictFrameworkBuilder<TConfiguration>>? configure = null)
-        where TContext : DbContext
-        where TConfiguration : class, IOpenIddictFrameworkConfiguration, new()
-    {
-        var loadedConfiguration = LoadConfiguration<TConfiguration>(configuration, sectionName);
-        
-        var identityServerBuilder = new OpenIddictFrameworkBuilder<TConfiguration>(loadedConfiguration, environment);
-        
-        configure?.Invoke(identityServerBuilder);
-        
-        AddCoreServices(services, loadedConfiguration);
-        
-        services.AddOpenIddict()
-            .AddCore(core =>
-            {
-                core.UseEntityFrameworkCore<TContext>();
-            })
-            .AddServer(identityServerBuilder.Server.Configure)
-            .AddClient(identityServerBuilder.Client.Configure)
-            .AddValidation(validation =>
-            {
-                validation.SetIssuer(loadedConfiguration.Issuer);
-
-                validation.UseAspNetCore();
-                validation.UseLocalServer();
-                validation.UseSystemNetHttp();
-                validation.UseDataProtection();
-            });
-        
-        return services;
     }
 }
